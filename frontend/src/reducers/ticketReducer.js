@@ -10,7 +10,7 @@ export default function TicketReducer(state, action) {
       return {
         ...state,
         tickets: state.tickets.map((ticket) => {
-          return ticket.id === action.payload.id ? action.payload : ticket;
+          return ticket._id === action.payload._id ? action.payload : ticket;
         }),
         editingTicket: null,
       };
