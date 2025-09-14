@@ -20,6 +20,21 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
+// --------------------
+// Health Check Endpoint to keep app awake on render
+// --------------------
+app.get("/healthz", async (req, res) => {
+  try {
+    // Check MongoDB connection
+    const admin = mongoose.connection.db.admin();
+    await admin.ping();
+    res.status(200).send("OK"); // server & DB are fine
+  } catch (err) {
+    console.error("Health check failed:", err);
+    res.status(500).send("Database connection failed");
+  }
+});
+
 // to connect to mongoDB database
 mongoose
   .connect(process.env.MONGO_URL)
